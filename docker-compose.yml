@@ -1,0 +1,32 @@
+version: "3.4"
+
+
+services:
+
+  postgres:
+    restart: always
+    image: postgres:11.4
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_DB=db
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - ./postgres:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+
+  car-service:
+    image: mila973/car-service:0.0.1
+    environment:
+      - SPRING_PROFILES_ACTIVE=postgresql
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/db?currentSchema=cars
+      - SPRING_FLYWAY_SCHEMAS=cars
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root
+    ports:
+      - 8080:8080

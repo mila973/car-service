@@ -1,0 +1,24 @@
+server.port: 8080
+
+sql_schema: cars
+sql_database: db
+sql_host: localhost
+sql_port: 5432
+sql_username: root
+sql_password: root
+
+
+spring:
+  application:
+    name: car-service
+  datasource:
+    url: jdbc:postgresql://${sql_host}:${sql_port}/${sql_database}?currentSchema=${sql_schema}
+    username: ${sql_username}
+    password: ${sql_password}
+  flyway:
+    schemas: ${sql_schema}
+
+management:
+  endpoint:
+    health:
+      show-details: always
