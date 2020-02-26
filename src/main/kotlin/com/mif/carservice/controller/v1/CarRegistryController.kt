@@ -130,7 +130,7 @@ class CarRegistryController(
         }
     }
 
-    @DeleteMapping("car/{vehicle}")
+    @DeleteMapping("car/{vehicleId}")
     @ApiResponses(
             ApiResponse(code = 200, message = "Successfully deleted vehicle"),
             ApiResponse(code = 404, message = "Vehicle not found"),
