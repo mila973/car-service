@@ -8,5 +8,5 @@ import java.util.UUID
 
 @Repository
 interface VehicleRepository : JpaRepository<Vehicle, UUID> {
-    fun findCarById(id: UUID): Vehicle?
+    fun findVehicleById(id: UUID): Vehicle?
 }

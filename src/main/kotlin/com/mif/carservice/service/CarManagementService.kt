@@ -18,7 +18,13 @@ class CarManagementService(
     fun getScheduledVehicles(): List<Vehicle> {
         return vehicleRepository
                 .findAll()
-                .filter { it.state.equals(VehicleState.SCHEDULED) }
+    }
+
+    fun getVehicle(vehicleId: UUID): Vehicle {
+        return vehicleRepository
+                .findVehicleById(vehicleId) ?:
+                    throw createNotFoundException(vehicleId.toString())
+
     }
 
     fun scheduleVehicle(registrationNumber: String): String {
@@ -30,8 +36,18 @@ class CarManagementService(
         return vehicle.id.toString()
     }
 
+    fun updateVehicle(vehicleId: UUID, registrationNumber: String): Vehicle {
+        var vehicle = vehicleRepository.findVehicleById(vehicleId) ?:
+            throw createNotFoundException(vehicleId.toString())
+
+        vehicle.registrationNumber = registrationNumber
+        vehicleRepository.save(vehicle)
+
+        return vehicle
+    }
+
     fun initiateRepairing(vehicleId: UUID): String {
-        var vehicle = vehicleRepository.findCarById(vehicleId) ?:
+        var vehicle = vehicleRepository.findVehicleById(vehicleId) ?:
             throw createNotFoundException(vehicleId.toString())
         if (VehicleState.transitionState(vehicle.state) != VehicleState.REPAIRING) {
             buildIllegalStateException(vehicleId, vehicle.state)
@@ -43,7 +59,7 @@ class CarManagementService(
     }
 
     fun finishRepairing(vehicleId: UUID): String {
-        var vehicle = vehicleRepository.findCarById(vehicleId) ?:
+        var vehicle = vehicleRepository.findVehicleById(vehicleId) ?:
                 throw createNotFoundException(vehicleId.toString())
         if (VehicleState.transitionState(vehicle.state) != VehicleState.REPAIRED) {
             buildIllegalStateException(vehicleId, vehicle.state)
@@ -53,7 +69,7 @@ class CarManagementService(
     }
 
     fun deleteVehicle(vehicleId: UUID): String {
-        var vehicle = vehicleRepository.findCarById(vehicleId) ?:
+        var vehicle = vehicleRepository.findVehicleById(vehicleId) ?:
             throw createNotFoundException(vehicleId.toString())
         vehicleRepository.delete(vehicle)
 

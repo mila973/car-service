@@ -23,7 +23,7 @@ data class Vehicle(
         val id: UUID = UUID.randomUUID(),
 
         @Column(name = "registration_number")
-        val registrationNumber: String = "",
+        var registrationNumber: String = "",
 
         @Column(name = "state")
         @Enumerated(EnumType.STRING)
