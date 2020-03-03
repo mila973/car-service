@@ -32,8 +32,7 @@ class CarManagementService(
                 registrationNumber = registrationNumber,
                 state = VehicleState.SCHEDULED
         )
-        vehicleRepository.save(vehicle)
-        return vehicle.id.toString()
+        return vehicleRepository.save(vehicle).id.toString()
     }
 
     fun updateVehicle(vehicleId: UUID, registrationNumber: String): Vehicle {
