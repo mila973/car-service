@@ -35,7 +35,7 @@ class DefectController(
             return ResponseEntity.ok(
                     defectService.getDefectList()
             )
-        } catch(ex: HttpException) {
+        } catch (ex: HttpException) {
             throw ResponseStatusException(ex.status, ex.message, ex)
         }
     }
@@ -52,7 +52,7 @@ class DefectController(
             return ResponseEntity.ok(
                     defectService.getDefect(id.toInt())
             )
-        } catch(ex: HttpException) {
+        } catch (ex: HttpException) {
             throw ResponseStatusException(ex.status, ex.message, ex)
         }
     }
@@ -69,7 +69,7 @@ class DefectController(
             return ResponseEntity.ok(
                     defectService.getVehicleDefects(UUID.fromString(id))
             )
-        } catch(ex: HttpException) {
+        } catch (ex: HttpException) {
             throw ResponseStatusException(ex.status, ex.message, ex)
         }
     }
@@ -88,7 +88,7 @@ class DefectController(
             return ResponseEntity.ok(
                     defectService.createVehicleDefect(UUID.fromString(id), request)
             )
-        } catch(ex: HttpException) {
+        } catch (ex: HttpException) {
             throw ResponseStatusException(ex.status, ex.message, ex)
         }
     }
@@ -108,7 +108,7 @@ class DefectController(
             return ResponseEntity.ok(
                     defectService.updateDefect(id.toInt(), request)
             )
-        } catch(ex: HttpException) {
+        } catch (ex: HttpException) {
             throw ResponseStatusException(ex.status, ex.message, ex)
         }
     }
@@ -125,7 +125,7 @@ class DefectController(
         try {
             defectService.deleteDefect(id.toInt())
             return ResponseEntity(HttpStatus.NO_CONTENT)
-        } catch(ex: HttpException) {
+        } catch (ex: HttpException) {
             throw ResponseStatusException(ex.status, ex.message, ex)
         }
     }

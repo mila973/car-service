@@ -6,9 +6,7 @@ import com.mif.carservice.model.DefectServiceEntity
 import com.mif.carservice.model.DefectServiceRequest
 import com.mif.carservice.repository.DefectRepository
 import com.mif.carservice.service.error.DefectErrors
-import com.mif.carservice.service.error.VehicleErrors
 import com.mif.carservice.util.HttpException
-import org.jdbi.v3.sqlobject.transaction.Transaction
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import java.util.UUID
@@ -29,7 +27,7 @@ class DefectService(
     }
 
     fun getVehicleDefects(vehicleId: UUID): List<DefectServiceEntity> {
-        val vehicle= vehicleService.getVehicle(vehicleId)
+        val vehicle = vehicleService.getVehicle(vehicleId)
 
         return defectClient.getDefectList()
                 .filter {
@@ -43,7 +41,6 @@ class DefectService(
 
     fun createVehicleDefect(id: UUID, request: DefectServiceRequest): DefectServiceEntity {
         val serviceDefect = createDefect(request)
-
         val defect = Defect(
                 serviceId = serviceDefect.id,
                 vehicleId = id
@@ -57,8 +54,7 @@ class DefectService(
     }
 
     fun deleteDefect(id: Int) {
-        val defect = defectRepository.findDefectByServiceId(id) ?:
-                throw createNotFoundException(id)
+        val defect = defectRepository.findDefectByServiceId(id) ?: throw createNotFoundException(id)
         defectClient.deleteDefect(defect.serviceId)
         defectRepository.delete(defect)
     }

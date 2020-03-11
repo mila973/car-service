@@ -38,7 +38,6 @@ class DefectTemplateConfig {
     ): DefectClient {
         val template = builder.rootUri(props.endpoint)
                 .interceptors(ClientHttpRequestInterceptor { request, body, execution ->
-                    request.headers.accept = listOf(MediaType.APPLICATION_JSON_UTF8)
                     execution.execute(request, body)
                 })
                 .setConnectTimeout(Duration.ofMillis(props.connectTimeoutMs))

@@ -49,7 +49,7 @@ class VehicleRegistryController(
             return ResponseEntity.ok(
                     vehicleManagementService.getVehicle(UUID.fromString(vehicleId))
             )
-        } catch(ex: HttpException) {
+        } catch (ex: HttpException) {
             throw ResponseStatusException(ex.status, ex.message, ex)
         }
     }
@@ -139,7 +139,7 @@ class VehicleRegistryController(
         try {
             val deletedVehicleId = vehicleManagementService.deleteVehicle(UUID.fromString(vehicleId))
             return ResponseEntity.ok(deletedVehicleId)
-        } catch(ex: HttpException) {
+        } catch (ex: HttpException) {
             throw ResponseStatusException(ex.status, ex.message, ex)
         }
     }

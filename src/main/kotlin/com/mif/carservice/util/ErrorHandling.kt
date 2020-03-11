@@ -1,16 +1,15 @@
 package com.mif.carservice.util
 
 import com.fasterxml.jackson.annotation.JsonInclude
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.module.kotlin.readValue
-import com.mif.carservice.service.error.VehicleErrors
 import org.springframework.http.HttpStatus
 import org.springframework.web.client.HttpClientErrorException
-import org.springframework.web.client.HttpStatusCodeException
-import org.springframework.web.server.ResponseStatusException
+import org.springframework.web.client.ResourceAccessException
 
 object HttpClientUtils {
     fun handleHttpErrorStatus(it: Throwable) {
+        if (it is ResourceAccessException) {
+            throw HttpException(status = HttpStatus.INTERNAL_SERVER_ERROR, code = DefectClientErrors.DefectServiceUnavailable, message = "Something went wrong with defect service")
+        }
         if (it is HttpClientErrorException) {
             when (it.statusCode) {
                 HttpStatus.NOT_FOUND ->
@@ -46,6 +45,8 @@ class HttpException(
         val data: Map<String, Any> = mapOf(),
         e: Throwable? = null
 ) : Exception(message, e)
+
+class SaveFailedException(val id: Int, e: Throwable?): Exception(e)
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 data class HttpErrorResponse(val code: String, val message: String?, val data: Map<String, Any>? = mapOf()) {

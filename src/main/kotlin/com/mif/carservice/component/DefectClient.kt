@@ -34,8 +34,8 @@ class DefectClient(
                 .getOrThrow()
     }
 
-    fun updateDefect(id: Int, request: DefectServiceRequest): DefectServiceEntity {
-        val request = buildRequest(DEFECTS_URI + "/$id", request, HttpMethod.PUT)
+    fun updateDefect(id: Int, defectRequest: DefectServiceRequest): DefectServiceEntity {
+        val request = buildRequest(DEFECTS_URI + "/$id", defectRequest, HttpMethod.PUT)
 
         return restTemplate.runCatching {
             exchange<DefectServiceEntity>(request).body!!
@@ -44,8 +44,8 @@ class DefectClient(
                 .getOrThrow()
     }
 
-    fun createDefect(request: DefectServiceRequest): DefectServiceEntity {
-        val request = buildRequest(DEFECTS_URI, request, HttpMethod.POST)
+    fun createDefect(defectRequest: DefectServiceRequest): DefectServiceEntity {
+        val request = buildRequest(DEFECTS_URI, defectRequest, HttpMethod.POST)
 
         return restTemplate.runCatching {
             exchange<DefectServiceEntity>(request).body!!
