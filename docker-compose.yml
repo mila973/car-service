@@ -1,6 +1,5 @@
 version: "3.4"
 
-
 services:
 
   postgres:
@@ -30,3 +29,8 @@ services:
       - SPRING_DATASOURCE_PASSWORD=root
     ports:
       - 80:80
+
+  defect-service:
+    image: mila973/defect-registry:latest
+    ports:
+      - 5000:8090

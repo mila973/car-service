@@ -18,6 +18,8 @@ spring:
     password: ${sql_password}
   flyway:
     schemas: ${sql_schema}
+defect:
+  endpoint: http://localhost:5000
 
 management:
   endpoint:

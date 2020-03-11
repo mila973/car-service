@@ -3,8 +3,8 @@ package com.mif.carservice.controller.v1
 import com.mif.carservice.controller.v1.model.ScheduleRequest
 import com.mif.carservice.controller.v1.model.UpdateVehicleRequest
 import com.mif.carservice.model.Vehicle
-import com.mif.carservice.service.CarManagementService
-import com.mif.carservice.service.error.HttpException
+import com.mif.carservice.service.VehicleManagementService
+import com.mif.carservice.util.HttpException
 import io.swagger.annotations.ApiResponse
 import io.swagger.annotations.ApiResponses
 import org.springframework.http.ResponseEntity
@@ -22,40 +22,39 @@ import java.util.UUID
 
 @RestController
 @RequestMapping("v1")
-class CarRegistryController(
-        private val carManagementService: CarManagementService
+class VehicleRegistryController(
+        private val vehicleManagementService: VehicleManagementService
 ) {
 
-    @GetMapping("cars")
+    @GetMapping("vehicles")
     @ApiResponses(
             ApiResponse(code = 200, message = "successfully returned vehicles"),
             ApiResponse(code = 404, message = "NOT FOUND")
     )
     fun getScheduledVehicles(): ResponseEntity<List<Vehicle>> {
         return ResponseEntity.ok(
-                carManagementService.getScheduledVehicles()
+                vehicleManagementService.getScheduledVehicles()
         )
     }
 
-    @GetMapping("car/{vehicleId}")
+    @GetMapping("vehicles/{vehicleId}")
     @ApiResponses(
             ApiResponse(code = 200, message = "successfully scheduled vehicle"),
             ApiResponse(code = 400, message = "Bad request")
     )
     fun getVehicle(
-            @PathVariable(name = "vehicleId")vehicleId: String
+            @PathVariable(name = "vehicleId") vehicleId: String
     ): ResponseEntity<Vehicle> {
         try {
             return ResponseEntity.ok(
-                    carManagementService.getVehicle(UUID.fromString(vehicleId))
+                    vehicleManagementService.getVehicle(UUID.fromString(vehicleId))
             )
         } catch(ex: HttpException) {
             throw ResponseStatusException(ex.status, ex.message, ex)
         }
     }
 
-
-    @PostMapping("car")
+    @PostMapping("vehicles")
     @ApiResponses(
             ApiResponse(code = 200, message = "successfully scheduled vehicle"),
             ApiResponse(code = 404, message = "NOT FOUND"),
@@ -65,14 +64,14 @@ class CarRegistryController(
             @RequestBody request: ScheduleRequest
     ): ResponseEntity<String> {
         try {
-            val scheduledVehicleId = carManagementService.scheduleVehicle(request.registrationNumber)
+            val scheduledVehicleId = vehicleManagementService.scheduleVehicle(request.registrationNumber)
             return ResponseEntity.ok(scheduledVehicleId)
         } catch (ex: HttpException) {
             throw ResponseStatusException(ex.status, ex.message, ex)
         }
     }
 
-    @PutMapping("car/{vehicleId}")
+    @PutMapping("vehicles/{vehicleId}")
     @ApiResponses(
             ApiResponse(code = 200, message = "Successfully initiated vehicle repairing"),
             ApiResponse(code = 400, message = "Bad Request"),
@@ -84,7 +83,7 @@ class CarRegistryController(
             @RequestBody request: UpdateVehicleRequest
     ): ResponseEntity<Vehicle> {
         try {
-            val updatedVehicleId = carManagementService.updateVehicle(
+            val updatedVehicleId = vehicleManagementService.updateVehicle(
                     UUID.fromString(vehicleId),
                     request.registrationNumber
             )
@@ -94,7 +93,7 @@ class CarRegistryController(
         }
     }
 
-    @PostMapping("car/{vehicleId}:repair")
+    @PostMapping("vehicles/{vehicleId}:repair")
     @ApiResponses(
             ApiResponse(code = 200, message = "Successfully repaired vehicle"),
             ApiResponse(code = 404, message = "Vehicle not found"),
@@ -104,14 +103,14 @@ class CarRegistryController(
             @PathVariable(name = "vehicleId") vehicleId: String
     ): ResponseEntity<String> {
         try {
-            val updatedVehicleId = carManagementService.initiateRepairing(UUID.fromString(vehicleId))
+            val updatedVehicleId = vehicleManagementService.initiateRepairing(UUID.fromString(vehicleId))
             return ResponseEntity.ok(updatedVehicleId)
         } catch (ex: HttpException) {
             throw ResponseStatusException(ex.status, ex.message, ex)
         }
     }
 
-    @PostMapping("car/{vehicleId}:finish")
+    @PostMapping("vehicles/{vehicleId}:finish")
     @ApiResponses(
             ApiResponse(code = 200, message = "Successfully repaired vehicle"),
             ApiResponse(code = 404, message = "Vehicle not found"),
@@ -121,14 +120,14 @@ class CarRegistryController(
             @PathVariable(name = "vehicleId") vehicleId: String
     ): ResponseEntity<String> {
         try {
-            val updatedVehicleId = carManagementService.finishRepairing(UUID.fromString(vehicleId))
+            val updatedVehicleId = vehicleManagementService.finishRepairing(UUID.fromString(vehicleId))
             return ResponseEntity.ok(updatedVehicleId)
         } catch (ex: HttpException) {
             throw ResponseStatusException(ex.status, ex.message, ex)
         }
     }
 
-    @DeleteMapping("car/{vehicleId}")
+    @DeleteMapping("vehicles/{vehicleId}")
     @ApiResponses(
             ApiResponse(code = 200, message = "Successfully deleted vehicle"),
             ApiResponse(code = 404, message = "Vehicle not found"),
@@ -138,7 +137,7 @@ class CarRegistryController(
             @PathVariable(name = "vehicleId") vehicleId: String
     ): ResponseEntity<String> {
         try {
-            val deletedVehicleId = carManagementService.deleteVehicle(UUID.fromString(vehicleId))
+            val deletedVehicleId = vehicleManagementService.deleteVehicle(UUID.fromString(vehicleId))
             return ResponseEntity.ok(deletedVehicleId)
         } catch(ex: HttpException) {
             throw ResponseStatusException(ex.status, ex.message, ex)

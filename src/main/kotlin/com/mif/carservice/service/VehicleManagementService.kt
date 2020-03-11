@@ -3,15 +3,14 @@ package com.mif.carservice.service
 import com.mif.carservice.model.Vehicle
 import com.mif.carservice.model.VehicleState
 import com.mif.carservice.repository.VehicleRepository
-import com.mif.carservice.service.error.EmailRequestErrors
-import com.mif.carservice.service.error.HttpException
-import com.mif.carservice.service.exception.VehicleNotFoundException
+import com.mif.carservice.service.error.VehicleErrors
+import com.mif.carservice.util.HttpException
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import java.util.UUID
 
 @Service
-class CarManagementService(
+class VehicleManagementService(
         private var vehicleRepository: VehicleRepository
 ) {
 
@@ -78,7 +77,7 @@ class CarManagementService(
     fun buildIllegalStateException(id: UUID, state: VehicleState) {
         throw HttpException(
                 status = HttpStatus.NOT_ACCEPTABLE,
-                code = EmailRequestErrors.IllegalVehicleState,
+                code = VehicleErrors.IllegalVehicleState,
                 message = "Vehicle cannot initiate action in state $state for order id: $id"
         )
     }
@@ -86,7 +85,7 @@ class CarManagementService(
     fun createNotFoundException(vehicleId: String): HttpException {
         return HttpException(
                 status = HttpStatus.NOT_FOUND,
-                code = EmailRequestErrors.VehicleNotFound,
+                code = VehicleErrors.VehicleNotFound,
                 message = "Failed to find vehicle with id: $vehicleId"
         )
     }

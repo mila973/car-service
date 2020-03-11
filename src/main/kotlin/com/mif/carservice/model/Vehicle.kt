@@ -3,6 +3,7 @@ package com.mif.carservice.model
 import java.time.Instant
 import java.time.Instant.now
 import java.util.UUID
+import javax.persistence.CascadeType
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.EnumType
@@ -12,6 +13,7 @@ import javax.persistence.GenerationType
 import javax.persistence.Id
 import javax.persistence.Inheritance
 import javax.persistence.InheritanceType
+import javax.persistence.OneToMany
 import javax.persistence.Table
 
 @Entity
@@ -30,5 +32,8 @@ data class Vehicle(
         var state: VehicleState = VehicleState.SCHEDULED,
 
         @Column(name = "registration_date")
-        val registeredOn: Instant = now()
+        val registeredOn: Instant = now(),
+
+        @OneToMany(mappedBy = "vehicleId", cascade = [CascadeType.ALL], orphanRemoval = true)
+        var defects: List<Defect> = listOf()
 )
