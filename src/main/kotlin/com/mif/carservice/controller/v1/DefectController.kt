@@ -46,7 +46,7 @@ class DefectController(
             ApiResponse(code = 404, message = "NOT FOUND")
     )
     fun getDefect(
-            @PathVariable(name = "id") id: String
+            @PathVariable(name = "defectId") id: String
     ): ResponseEntity<DefectServiceEntity> {
         try {
             return ResponseEntity.ok(
@@ -57,7 +57,7 @@ class DefectController(
         }
     }
 
-    @GetMapping("vehicles/{vehicleId}/defects")
+    @GetMapping("defects/vehicle/{vehicleId}")
     @ApiResponses(
             ApiResponse(code = 200, message = "Successfully returned defects"),
             ApiResponse(code = 404, message = "NOT FOUND")
@@ -74,7 +74,7 @@ class DefectController(
         }
     }
 
-    @PostMapping("vehicles/{vehicleId}/defects")
+    @PostMapping("defects/vehicle/{vehicleId}")
     @ApiResponses(
             ApiResponse(code = 200, message = "Successfully created defect"),
             ApiResponse(code = 404, message = "NOT FOUND"),

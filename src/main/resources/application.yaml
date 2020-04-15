@@ -19,7 +19,7 @@ spring:
   flyway:
     schemas: ${sql_schema}
 defect:
-  endpoint: http://localhost:5000
+  url: http://localhost:5000
 
 management:
   endpoint:

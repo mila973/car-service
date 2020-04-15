@@ -19,7 +19,7 @@ import java.time.Duration
 @Validated
 class DefectTemplateProperties {
     @field:NotNull
-    lateinit var endpoint: String
+    lateinit var url: String
 
     var connectTimeoutMs: Long = 2000
 
@@ -36,7 +36,7 @@ class DefectTemplateConfig {
             props: DefectTemplateProperties,
             objectMapper: ObjectMapper
     ): DefectClient {
-        val template = builder.rootUri(props.endpoint)
+        val template = builder.rootUri(props.url)
                 .interceptors(ClientHttpRequestInterceptor { request, body, execution ->
                     execution.execute(request, body)
                 })
